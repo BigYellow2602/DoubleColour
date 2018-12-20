@@ -5,8 +5,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class DataBase
 {
@@ -30,7 +28,7 @@ public class DataBase
 			
 			Connection conn2 = DriverManager.getConnection(DB_URL_2, USER, PASS) ;
 			Statement stmt2 = conn2.createStatement() ;
-			stmt2.execute("CREATE TABLE IF NOT EXISTS DATALIST(No INT DEFAULT '1' PRIMARY KEY,RED char(32),BLUE char(4),TIME CHAR(10))") ;
+			stmt2.execute("CREATE TABLE IF NOT EXISTS DATALIST(No INT DEFAULT '1' PRIMARY KEY,RED char(32),BLUE char(4),TIME TIMESTAMP DEFAULT CURRENT_TIMESTAMP)") ;
 			stmt2.execute("ALTER TABLE DATALIST MODIFY No INT AUTO_INCREMENT");
 			conn2.close();
 			
@@ -51,11 +49,7 @@ public class DataBase
 			Connection conn = DriverManager.getConnection(DB_URL_2, USER, PASS) ;
 			Statement stmt = conn.createStatement() ;
 			
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd") ;
-			Date now = new Date();
-			String today = sdf.format(now) ;
-
-			String sqlNum = "INSERT INTO DATALIST(RED,BLUE,TIME) VALUES('" + red + "','" + blue + "','" + today + "')";
+			String sqlNum = "INSERT INTO DATALIST(RED,BLUE) VALUES('" + red + "','" + blue + "')";
 			stmt.execute(sqlNum) ;
 			
 		} catch (ClassNotFoundException e)
